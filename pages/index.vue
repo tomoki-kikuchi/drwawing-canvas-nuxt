@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="pageContainer">
     <draw-canvas />
   </div>
 </template>
@@ -15,13 +15,8 @@ export default {
 </script>
 
 <style>
-.container {
-  background-color: #fff;
+.pageContainer {
   margin: 0 auto;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 }
 </style>

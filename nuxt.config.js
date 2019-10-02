@@ -26,11 +26,18 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: [
+    // 'ant-design-vue/dist/antd.css'
+  ],
+  styleResources: {
+    scss: ['~/assets/scss/reset.scss', '~/assets/scss/base.scss']
+  },
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    // '~/plugins/antd-ui'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -44,7 +51,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/style-resources'
   ],
   /*
    ** Axios module configuration
@@ -55,6 +63,9 @@ export default {
    ** Build configuration
    */
   build: {
+    babel: {
+      plugins: [['import', { libraryName: 'ant-design-vue', style: 'css' }]]
+    },
     /*
      ** You can extend webpack config here
      */
