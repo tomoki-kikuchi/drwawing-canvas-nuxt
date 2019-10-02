@@ -5,7 +5,6 @@
       <div class="tool">
         <Button type="default" @click="undo"><Icon type="undo"/></Button>
         <Button type="default" @click="redo"><Icon type="redo"/></Button>
-        <Button type="default" @click="setStrokeColor">赤くする</Button>
         <Button type="primary" @click="saveImage"
           ><Icon type="download" />Download</Button
         >
@@ -17,12 +16,17 @@
         <p class="toolLabel">線の太さ</p>
         <Slider id="test" v-model="brushWidth" :min="1" :max="20" />
       </div>
+      <div class="tool">
+        <p class="toolLabel">線の色</p>
+        <compact-picker v-model="strokeColor" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { Button, Icon, Slider } from 'ant-design-vue'
+import { Compact } from 'vue-color'
 import DrawableCanvas from '~/plugins/DrawableCanvas'
 
 export default {
@@ -30,7 +34,8 @@ export default {
   components: {
     Button,
     Icon,
-    Slider
+    Slider,
+    'compact-picker': Compact
   },
   data() {
     return {
@@ -42,6 +47,9 @@ export default {
   watch: {
     brushWidth(val) {
       this.setBrushWidth(val)
+    },
+    strokeColor(color) {
+      this.setStrokeColor(color.hex)
     }
   },
   mounted() {
@@ -60,8 +68,8 @@ export default {
     setBrushWidth(width) {
       this.canvas.setBrushWidth(width)
     },
-    setStrokeColor() {
-      this.canvas.setStrokeColor(this.strokeColor)
+    setStrokeColor(color) {
+      this.canvas.setStrokeColor(color)
     },
     saveImage() {
       this.canvas.saveImage()
