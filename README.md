@@ -1,6 +1,6 @@
-# fabric-sample
+# test
 
-> My first-class Nuxt.js project
+> My astounding Nuxt.js project
 
 ## Build Setup
 

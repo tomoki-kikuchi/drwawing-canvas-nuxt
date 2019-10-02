@@ -1,8 +1,5 @@
-export default {
-  server: {
-    host: '0.0.0.0'
-  },
-  mode: 'spa',
+module.exports = {
+  mode: 'universal',
   /*
    ** Headers of the page
    */
@@ -26,18 +23,15 @@ export default {
   /*
    ** Global CSS
    */
-  css: [
-    // 'ant-design-vue/dist/antd.css'
-  ],
+  css: ['ant-design-vue/dist/antd.css'],
   styleResources: {
     scss: ['~/assets/scss/reset.scss', '~/assets/scss/base.scss']
   },
+
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    // '~/plugins/antd-ui'
-  ],
+  plugins: ['@/plugins/antd-ui'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -63,9 +57,6 @@ export default {
    ** Build configuration
    */
   build: {
-    babel: {
-      plugins: [['import', { libraryName: 'ant-design-vue', style: 'css' }]]
-    },
     /*
      ** You can extend webpack config here
      */

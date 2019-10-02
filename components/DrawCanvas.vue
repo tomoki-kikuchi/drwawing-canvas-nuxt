@@ -18,7 +18,9 @@
       </div>
       <div class="tool">
         <p class="toolLabel">線の色</p>
-        <compact-picker v-model="strokeColor" />
+        <no-ssr>
+          <compact-picker v-model="strokeColor" />
+        </no-ssr>
       </div>
     </div>
   </div>
