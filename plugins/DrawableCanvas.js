@@ -54,7 +54,7 @@ export default class DrawableCanvas {
     const blob = this.getImageBlob()
     const link = document.createElement('a')
     link.href = window.URL.createObjectURL(blob)
-    link.download = 'Result.png'
+    link.download = 'Download.png'
     link.click()
   }
   getImageBlob() {

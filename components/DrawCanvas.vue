@@ -5,10 +5,8 @@
       <div class="tool">
         <Button type="default" @click="undo"><Icon type="undo"/></Button>
         <Button type="default" @click="redo"><Icon type="redo"/></Button>
-        <Button type="default" @click="setStrokeColor"
-          ><Icon type="font-colors"
-        /></Button>
-        <Button type="primary" download="" @click="saveImage"
+        <Button type="default" @click="setStrokeColor">赤くする</Button>
+        <Button type="primary" @click="saveImage"
           ><Icon type="download" />Download</Button
         >
         <Button type="danger" @click="deleteCanvas"
@@ -59,11 +57,11 @@ export default {
     deleteCanvas() {
       this.canvas.deleteAll()
     },
-    setBrushWidth() {
-      this.canvas.setBrushWidth(this.strokeColor)
+    setBrushWidth(width) {
+      this.canvas.setBrushWidth(width)
     },
-    setStrokeColor(color) {
-      this.canvas.setStrokeColor('red')
+    setStrokeColor() {
+      this.canvas.setStrokeColor(this.strokeColor)
     },
     saveImage() {
       this.canvas.saveImage()
