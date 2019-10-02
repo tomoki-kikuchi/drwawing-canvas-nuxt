@@ -3,14 +3,21 @@
     <canvas id="canvas" class="canvas" width="600" height="600"></canvas>
     <div class="toolContainer">
       <div class="tool">
-        <Button type="default" @click="undo"><Icon type="undo"/></Button>
-        <Button type="default" @click="redo"><Icon type="redo"/></Button>
-        <Button type="primary" @click="saveImage"
-          ><Icon type="download" />Download</Button
-        >
-        <Button type="danger" @click="deleteCanvas"
-          ><Icon type="delete"
-        /></Button>
+        <div class="buttonContainer">
+          <div class="buttonInner">
+            <Button type="default" @click="undo"><Icon type="undo"/></Button>
+            <Button type="default" @click="redo"><Icon type="redo"/></Button>
+            <Button type="primary" @click="saveImage"
+              ><Icon type="download" />Download</Button
+            >
+            <Checkbox :checked="isDrawingMode" @change="toggleDrawingMode"
+              >手書きモード</Checkbox
+            >
+          </div>
+          <Button type="danger" @click="deleteCanvas"
+            ><Icon type="delete"
+          /></Button>
+        </div>
       </div>
       <div class="tool">
         <p class="toolLabel">線の太さ</p>
@@ -18,16 +25,16 @@
       </div>
       <div class="tool">
         <p class="toolLabel">線の色</p>
-        <no-ssr>
+        <client-only>
           <compact-picker v-model="strokeColor" />
-        </no-ssr>
+        </client-only>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Button, Icon, Slider } from 'ant-design-vue'
+import { Button, Checkbox, Icon, Slider } from 'ant-design-vue'
 import { Compact } from 'vue-color'
 import DrawableCanvas from '~/plugins/DrawableCanvas'
 
@@ -35,6 +42,7 @@ export default {
   name: 'DrawCanvas',
   components: {
     Button,
+    Checkbox,
     Icon,
     Slider,
     'compact-picker': Compact
@@ -43,6 +51,7 @@ export default {
     return {
       canvas: null,
       brushWidth: 1,
+      isDrawingMode: true,
       strokeColor: 'red'
     }
   },
@@ -75,6 +84,10 @@ export default {
     },
     saveImage() {
       this.canvas.saveImage()
+    },
+    toggleDrawingMode(e) {
+      this.isDrawingMode = e.target.checked
+      this.canvas.drawingMode = e.target.checked
     }
   }
 }
@@ -98,6 +111,13 @@ export default {
     .toolLabel {
       margin-bottom: 10px;
     }
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  .buttonInner {
   }
 }
 </style>

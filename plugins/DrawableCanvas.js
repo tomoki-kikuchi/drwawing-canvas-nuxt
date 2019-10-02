@@ -19,6 +19,12 @@ export default class DrawableCanvas {
       this.isRedoing = false
     })
   }
+  get drawingMode() {
+    return this.canvas.isDrawingMode
+  }
+  set drawingMode(val) {
+    this.canvas.isDrawingMode = val
+  }
   // 戻る
   undo() {
     if (this.canvas._objects.length > 0) {
