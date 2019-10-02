@@ -53,8 +53,10 @@ export default class DrawableCanvas {
   saveImage() {
     const blob = this.getImageBlob()
     const link = document.createElement('a')
+    const time = new Date().getTime()
+    const fileName = `oekaki_${time}.png`
     link.href = window.URL.createObjectURL(blob)
-    link.download = 'Download.png'
+    link.download = fileName
     link.click()
   }
   getImageBlob() {
