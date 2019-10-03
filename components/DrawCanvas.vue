@@ -191,9 +191,10 @@ export default {
 }
 
 .stamp {
-  opacity: 0.7;
+  opacity: 1;
   &.isSelected {
     opacity: 1;
+    border: solid 3px #ff0000;
   }
 }
 
