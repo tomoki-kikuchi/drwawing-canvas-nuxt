@@ -5,48 +5,63 @@
       <div class="tool">
         <div class="buttonContainer">
           <div class="buttonInner">
-            <Button type="default" @click="undo"><Icon type="undo"/></Button>
-            <Button type="default" @click="redo"><Icon type="redo"/></Button>
-            <Button type="primary" @click="saveImage"
-              ><Icon type="download" />Download</Button
-            >
-            <Checkbox :checked="isDrawingMode" @change="toggleDrawingMode"
-              >手書きモード</Checkbox
+            <Button type="default" icon="undo" @click="undo" />
+            <Button type="default" icon="redo" @click="redo" />
+            <Button
+              icon="edit"
+              :type="isDrawingMode ? 'primary' : 'default'"
+              @click="toggleDrawingMode"
+            ></Button>
+            <Button
+              icon="search"
+              :type="isStampMode ? 'primary' : 'default'"
+              @click="toggleStampMode"
+            />
+
+            <Button type="primary" icon="download" @click="saveImage"
+              >Download</Button
             >
           </div>
-          <Button type="danger" @click="deleteCanvas"
-            ><Icon type="delete"
-          /></Button>
+          <Button type="danger" icon="delete" @click="deleteCanvas" />
         </div>
       </div>
-      <div class="tool">
-        <p class="toolLabel">線の太さ</p>
-        <Slider id="test" v-model="brushWidth" :min="1" :max="20" />
-      </div>
-      <div class="tool">
-        <p class="toolLabel">線の色</p>
-        <client-only>
-          <compact-picker v-model="strokeColor" />
-        </client-only>
-      </div>
-      <div class="tool">
-        <p class="toolLabel">スタンプ</p>
-        <Avatar
-          v-for="(stamp, index) in stampList"
-          :key="index"
-          class="stamp"
-          size="large"
-          :src="stamp"
-          :class="{ isSelected: selectStampIndex === index }"
-          @click="selectStamp(index)"
-        />
-      </div>
+
+      <transition name="tools">
+        <div v-show="isDrawingMode">
+          <div class="tool">
+            <p class="toolLabel">線の太さ</p>
+            <Slider id="test" v-model="brushWidth" :min="1" :max="20" />
+          </div>
+          <div class="tool">
+            <p class="toolLabel">線の色</p>
+            <client-only>
+              <compact-picker v-model="strokeColor" />
+            </client-only>
+          </div>
+        </div>
+      </transition>
+      <transition name="tools">
+        <div v-show="isStampMode">
+          <div class="tool">
+            <p class="toolLabel">スタンプ</p>
+            <Avatar
+              v-for="(stamp, index) in stampList"
+              :key="index"
+              class="stamp"
+              size="large"
+              :src="stamp"
+              :class="{ isSelected: selectStampIndex === index }"
+              @click="selectStamp(index)"
+            />
+          </div>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
-import { Avatar, Button, Checkbox, Icon, Slider } from 'ant-design-vue'
+import { Avatar, Button, Slider } from 'ant-design-vue'
 import { Compact } from 'vue-color'
 import DrawableCanvas from '~/plugins/DrawableCanvas'
 
@@ -63,8 +78,7 @@ export default {
   components: {
     Avatar,
     Button,
-    Checkbox,
-    Icon,
+    // Checkbox,
     Slider,
     'compact-picker': Compact
   },
@@ -73,6 +87,7 @@ export default {
       canvas: null,
       brushWidth: 1,
       isDrawingMode: false,
+      isStampMode: false,
       strokeColor: 'red',
       selectStampIndex: null
     }
@@ -88,6 +103,18 @@ export default {
     },
     strokeColor(color) {
       this.setStrokeColor(color.hex)
+    },
+    isDrawingMode(state, oldState) {
+      if (state) {
+        this.isStampMode = false
+      }
+      this.canvas.drawingMode = state
+    },
+    isStampMode(state, oldState) {
+      if (state) {
+        this.isDrawingMode = false
+        this.canvas.drawingMode = false
+      }
     }
   },
   mounted() {
@@ -123,9 +150,13 @@ export default {
     saveImage() {
       this.canvas.saveImage()
     },
-    toggleDrawingMode(e) {
-      this.isDrawingMode = e.target.checked
-      this.canvas.drawingMode = e.target.checked
+    toggleDrawingMode() {
+      this.isDrawingMode = !this.isDrawingMode
+      // this.isStampMode = false
+    },
+    toggleStampMode() {
+      // this.isDrawingMode = false
+      this.isStampMode = !this.isStampMode
     }
   }
 }
@@ -164,5 +195,14 @@ export default {
   &.isSelected {
     opacity: 1;
   }
+}
+
+.tools-enter-active,
+.tools-leave-active {
+  transition: opacity 0.5s;
+}
+.tools-enter,
+.tools-leave-to {
+  opacity: 0;
 }
 </style>

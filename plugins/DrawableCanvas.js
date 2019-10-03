@@ -28,10 +28,12 @@ export default class DrawableCanvas {
 
     this.canvas.on('mouse:down', (e) => {
       console.log('x:', e.pointer.x, 'y:', e.pointer.y)
-      const x = e.pointer.x
-      const y = e.pointer.y
+      if (!this.canvas.isDrawingMode) {
+        const x = e.pointer.x
+        const y = e.pointer.y
 
-      this.setStamp(x, y)
+        this.setStamp(x, y)
+      }
     })
 
     // this.canvas.on({
