@@ -29,18 +29,39 @@
           <compact-picker v-model="strokeColor" />
         </client-only>
       </div>
+      <div class="tool">
+        <p class="toolLabel">スタンプ</p>
+        <Avatar
+          v-for="(stamp, index) in stampList"
+          :key="index"
+          class="stamp"
+          size="large"
+          :src="stamp"
+          :class="{ isSelected: selectStampIndex === index }"
+          @click="selectStamp(index)"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Button, Checkbox, Icon, Slider } from 'ant-design-vue'
+import { Avatar, Button, Checkbox, Icon, Slider } from 'ant-design-vue'
 import { Compact } from 'vue-color'
 import DrawableCanvas from '~/plugins/DrawableCanvas'
+
+const stampList = [
+  '/images/stamp/animal_buta.png',
+  '/images/stamp/animal_kuma.png',
+  '/images/stamp/animal_mitsubachi.png',
+  '/images/stamp/animal_neko.png',
+  '/images/stamp/animal_penguin.png'
+]
 
 export default {
   name: 'DrawCanvas',
   components: {
+    Avatar,
     Button,
     Checkbox,
     Icon,
@@ -51,8 +72,14 @@ export default {
     return {
       canvas: null,
       brushWidth: 1,
-      isDrawingMode: true,
-      strokeColor: 'red'
+      isDrawingMode: false,
+      strokeColor: 'red',
+      selectStampIndex: null
+    }
+  },
+  computed: {
+    stampList() {
+      return stampList
     }
   },
   watch: {
@@ -82,6 +109,17 @@ export default {
     setStrokeColor(color) {
       this.canvas.setStrokeColor(color)
     },
+    setStamp(imagePath) {
+      this.canvas.setStamp(imagePath)
+    },
+    setStampImage(imagePath) {
+      this.canvas.setStampImage(imagePath)
+    },
+    selectStamp(index) {
+      this.selectStampIndex = index
+      this.canvas.setStampImage(this.stampList[index])
+    },
+
     saveImage() {
       this.canvas.saveImage()
     },
@@ -118,6 +156,13 @@ export default {
   display: flex;
   justify-content: space-between;
   .buttonInner {
+  }
+}
+
+.stamp {
+  opacity: 0.7;
+  &.isSelected {
+    opacity: 1;
   }
 }
 </style>
