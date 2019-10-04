@@ -70,7 +70,8 @@ const stampList = [
   '/images/stamp/animal_kuma.png',
   '/images/stamp/animal_mitsubachi.png',
   '/images/stamp/animal_neko.png',
-  '/images/stamp/animal_penguin.png'
+  '/images/stamp/animal_penguin.png',
+  '/images/stamp/shinwa_hades.png'
 ]
 
 export default {
