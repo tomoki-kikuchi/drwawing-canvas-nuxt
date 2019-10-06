@@ -32,7 +32,7 @@ export default class DrawableCanvas {
         const x = e.pointer.x
         const y = e.pointer.y
 
-        this.setStamp(x, y)
+        this.drawStamp(x, y)
       }
     })
 
@@ -82,7 +82,7 @@ export default class DrawableCanvas {
     this.canvas.freeDrawingBrush.color = color
   }
 
-  setStamp(x = 250, y = 250) {
+  drawStamp(x = 250, y = 250) {
     fabric.Image.fromURL(this.selectStampPath, (img) => {
       this.canvas.add(
         img
